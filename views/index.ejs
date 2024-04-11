@@ -1,0 +1,78 @@
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="theme-color" content="#111b21">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Daftar Nomor Rekening <%= profile.name %></title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css">
+      <script src="https://kit.fontawesome.com/edad16a995.js" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+      <link rel="stylesheet" href="/css/style.css">
+   </head>
+   <body class="" style="background-color: #111b21">
+      <div class="container mx-auto px-3 py-10 max-w-sm">
+      <div class="flex items-center justify-center">
+          <div class="flex flex-col items-center">
+              <div class="rounded-full overflow-hidden border border-gray-300">
+                  <img src="<%= profile.profileImage %>" class="w-24 h-24" alt="Profile Image"/>
+              </div>
+              <h2 class="text-lg text-white font-bold mt-4"><%= profile.name %></h2>
+             <small class="text-white mt-0">You can pay to my account number </small>
+          </div>
+      </div>
+          <audio id="testSound" src="/sound/button.mp3"></audio>
+          <% banks.forEach((bank, index) => { %>
+             <div class="copy-button flex flexi mt-4 items-center bg-white rounded-lg shadow-md overflow-hidden w-350 h-25 p-2"
+                  data-clipboard-target="#accountNumber<%= index %>"
+                  style="
+                background-image: url('https://helmisatria.com/_image?f=webp&w=500&h=500&href=%2Fimages%2Fproject-ournament-lines-btm.png');
+                background: linear-gradient(146.63deg, rgba(2, 132, 199, .1) 1.32%, rgba(236, 254, 255, 0) 66%), linear-gradient(325.76deg, rgba(2, 132, 199, .2) 3.68%, rgba(236, 254, 255, 0) 66.89%), #ffffff;
+                background-size: cover;
+                transform: rotateX(0deg);">
+
+                 <div class="w-2/3 p-1 ml-2">
+                     <h2 class="text-m font-bold mb-0 leading-tight"><%= bank.name %></h2>
+                     <p class="text-sm mb-0" id="accountNumber<%= index %>">No. Rek: <%= bank.accountNumber %></p>
+                     <p class="mb-0">a/n <%= profile.name %></p>
+                 </div>
+                 <span class="ml-auto hover:text-dark font-bold py-2 px-4 copy-button-icon">
+                    <i class="fa-regular fa-copy"></i>
+                 </span>
+             </div>
+         <% }); %>
+
+         <script>
+             document.addEventListener('DOMContentLoaded', function () {
+                 var clipboard = new ClipboardJS('.copy-button');
+   
+                 clipboard.on('success', function (e) {
+                     e.clearSelection();
+                     showNotification();
+                 });
+   
+                 clipboard.on('error', function (e) {
+                     alert('Gagal menyalin nomor rekening.');
+                 });
+   
+                 function showNotification() {
+                    document.getElementById('testSound').play();
+                    Toastify({
+                        text: 'Nomor rekening telah disalin!',
+                        duration: 1000,
+                        gravity: 'top',
+                        position: 'center',
+                        backgroundColor: "linear-gradient(146.63deg, rgba(2, 132, 199, .1) 1.32%, rgba(236, 254, 255, 0) 66%), linear-gradient(325.76deg, rgba(2, 132, 199, .2) 3.68%, rgba(236, 254, 255, 0) 66.89%), #ffffff",
+                        className: 'custom-toast',
+                        stopOnFocus: true,
+                        onClick: function () {}
+                    }).showToast();
+                 }
+             });
+         </script>
+      </div>
+   </body>
+</html>
