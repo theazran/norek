@@ -6,7 +6,7 @@ const ejs = require("ejs");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 const banksData = fs.readFileSync(path.join(__dirname, "db", "banks.json"));
 const profileData = fs.readFileSync(path.join(__dirname, "db", "profile.json"));
